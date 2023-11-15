@@ -16,6 +16,41 @@ const handleAllDisease = async (req, res) => {
     });
   }
 };
+const handleAllDiseaseByType = async (req, res) => {
+  try {
+    const type = req.params.type;
+    const data = await diseaseService.getAllDiseaseByType(type);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EM: "Error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
+
+const handleDetailDisease = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const data = await diseaseService.detailDisease(id);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EM: "Error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
 
 const handleAddDisease = async (req, res) => {
   try {
@@ -163,4 +198,6 @@ module.exports = {
   handleDeleteDisease,
   handleUpdateDisease,
   handleSearchDisease,
+  handleAllDiseaseByType,
+  handleDetailDisease,
 };

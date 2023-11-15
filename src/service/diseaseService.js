@@ -67,6 +67,38 @@ const getAllDisease = async () => {
   }
 };
 
+const getAllDiseaseByType = async (type) => {
+  try {
+    const [rows, fields] = await connection
+      .promise()
+      .execute("select * from disease where type=?", [type]);
+    return {
+      EM: "Get all disease successfully",
+      EC: "1",
+      DT: rows,
+    };
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
+const detailDisease = async (id) => {
+  try {
+    const [rows, fields] = await connection
+      .promise()
+      .execute("select * from disease where id=?", [id]);
+    return {
+      EM: "Get all disease successfully",
+      EC: "1",
+      DT: rows,
+    };
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const deleteDisease = async (id) => {
   try {
     const [rows, fields] = await connection
@@ -160,4 +192,6 @@ module.exports = {
   deleteDisease,
   updateDisease,
   searchDisease,
+  getAllDiseaseByType,
+  detailDisease,
 };

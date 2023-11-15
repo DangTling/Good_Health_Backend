@@ -25,9 +25,12 @@ const verifyToken = (token) => {
 };
 
 const checkUserJwt = (req, res, next) => {
-  let cookies = req.cookies;
-  if (cookies && cookies.jwt) {
-    let token = cookies.jwt;
+  // let cookies = req.cookies;
+  // console.log(cookies.jwt);
+  let cookies = req.headers.cookies;
+
+  if (cookies) {
+    let token = cookies;
     let decoded = verifyToken(token);
     if (decoded) {
       req.user = { role: "user" };

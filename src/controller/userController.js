@@ -82,7 +82,7 @@ const handleAllUser = async (req, res) => {
 
 const handleUserInfo = async (req, res) => {
   try {
-    if (!req.params.id) {
+    if (!req.params.email) {
       return res.status(200).json({
         EM: "Missing required params ",
         EC: 1,
@@ -90,7 +90,7 @@ const handleUserInfo = async (req, res) => {
       });
     }
 
-    let data = await userService.getUserInfo(req.params.id);
+    let data = await userService.getUserInfo(req.params.email);
     return res.status(200).json({
       EM: data.EM,
       EC: data.EC,

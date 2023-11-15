@@ -16,6 +16,23 @@ const handleAllMedicine = async (req, res) => {
     });
   }
 };
+const handleAllMedicineByType = async (req, res) => {
+  try {
+    const type = req.params.type;
+    const data = await medicineService.getAllMedicineByType(type);
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      EM: "Error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
 
 const handleAddMedicine = async (req, res) => {
   try {
@@ -164,6 +181,39 @@ const handleSearchMedicine = async (req, res) => {
     });
   }
 };
+const handleDetailMedicine = async (req, res) => {
+  try {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(400).json({
+        EM: "Missing search term",
+        EC: "0",
+        DT: "",
+      });
+    }
+    const data = await medicineService.detailMedicine(id);
+
+    if (data) {
+      return res.status(200).json({
+        EM: data.EM,
+        EC: data.EC,
+        DT: data.DT,
+      });
+    } else {
+      return res.status(404).json({
+        EM: "No results found",
+        EC: "0",
+        DT: [],
+      });
+    }
+  } catch (error) {
+    return res.status(500).json({
+      EM: "Error from server",
+      EC: "-1",
+      DT: "",
+    });
+  }
+};
 
 module.exports = {
   handleAllMedicine,
@@ -171,4 +221,6 @@ module.exports = {
   handleDeleteMedicine,
   handleUpdateMedicine,
   handleSearchMedicine,
+  handleAllMedicineByType,
+  handleDetailMedicine,
 };

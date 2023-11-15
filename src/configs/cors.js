@@ -13,7 +13,7 @@ const configCors = (app) => {
     // Request headers you wish to allow
     res.setHeader(
       "Access-Control-Allow-Headers",
-      "X-Requested-With,content-type"
+      "X-Requested-With,content-type, cookies"
     );
 
     // Set to true if you need the website to include cookies in the requests sent

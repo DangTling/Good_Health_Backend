@@ -76,8 +76,6 @@ const login = async (email, password) => {
     const hashedPassword = user.password;
     const salt = user.salt;
     let token = jwtActions.createJwt({
-      email: user.email,
-      name: user.name,
       expiresIn: process.env.JWT_EXPIRES_IN,
     });
     if (bcrypt.hashSync(password, salt) === hashedPassword) {
@@ -85,6 +83,9 @@ const login = async (email, password) => {
         EM: "Login successfully",
         EC: "1",
         DT: {
+          email: user.email,
+          name: user.name,
+          avatar: user.avatar,
           access_token: token,
         },
       };
@@ -117,11 +118,11 @@ const getAllUser = async () => {
   }
 };
 
-const getUserInfo = async (id) => {
+const getUserInfo = async (email) => {
   try {
     const [rows, fields] = await connection
       .promise()
-      .execute("select * from user where id = ?", [id]);
+      .execute("select * from user where email = ?", [email]);
     return {
       EM: "Get Infomation about this user successfully",
       EC: "1",
@@ -167,11 +168,11 @@ const deleteUser = async (id) => {
   }
 };
 
-const getUserByID = async (id) => {
+const getUserByID = async (email) => {
   try {
     const [rows, fields] = await connection
       .promise()
-      .execute("select * from user where id = ?", [id]);
+      .execute("select * from user where email = ?", [email]);
     return rows;
   } catch (error) {
     console.log(error);

@@ -57,6 +57,22 @@ const addNewMedicine = async (
   }
 };
 
+const getAllMedicineByType = async (type) => {
+  try {
+    const [rows, fields] = await connection
+      .promise()
+      .execute("select * from medicine where type=?", [type]);
+    return {
+      EM: "Get all medicine successfully",
+      EC: "1",
+      DT: rows,
+    };
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 const getAllMedicine = async () => {
   try {
     const [rows, fields] = await connection
@@ -166,10 +182,37 @@ const searchMedicine = async (searchTerm) => {
   }
 };
 
+const detailMedicine = async (id) => {
+  try {
+    const [rows, fields] = await connection
+      .promise()
+      .execute("SELECT * FROM medicine WHERE id=?", [id]);
+
+    if (rows.length > 0) {
+      return {
+        EM: "Search successful",
+        EC: "1",
+        DT: rows,
+      };
+    } else {
+      return {
+        EM: "No results found",
+        EC: "0",
+        DT: [],
+      };
+    }
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
+};
+
 module.exports = {
   getAllMedicine,
   addNewMedicine,
   deleteMedicine,
   updateMedicine,
   searchMedicine,
+  getAllMedicineByType,
+  detailMedicine,
 };

@@ -22,7 +22,7 @@ const initApiRoutes = (app) => {
   // router.use(checkUserJwt);
   // router.use(checkUserRole(["user", "admin"]));
   router.get("/user/logout", checkUserJwt, userController.handleLogout);
-  router.get("/user/info/:id", checkUserJwt, userController.handleUserInfo);
+  router.get("/user/info/:email", checkUserJwt, userController.handleUserInfo);
   router.put("/user/update/:id", checkUserJwt, userController.handleUpdateUser);
 
   // router.use(checkAdminJwt);
@@ -92,12 +92,27 @@ const initApiRoutes = (app) => {
   );
   router.put(
     "/order/cancel/:id",
-    checkAdminJwt,
+
     orderController.handleCancelOrder
   );
 
   // router.use(checkUserRole(["user", "admin"]));
   router.get("/medicine", checkUserJwt, medicineController.handleAllMedicine);
+  router.get(
+    "/medicine/detail/:id",
+    checkUserJwt,
+    medicineController.handleDetailMedicine
+  );
+  router.get(
+    "/disease/detail/:id",
+    checkUserJwt,
+    diseaseController.handleDetailDisease
+  );
+  router.get(
+    "/medicine/:type",
+    checkUserJwt,
+    medicineController.handleAllMedicineByType
+  );
   router.get(
     "/medicine/search/:searchTerm",
     checkUserJwt,
@@ -105,21 +120,22 @@ const initApiRoutes = (app) => {
   );
   router.get("/disease", checkUserJwt, diseaseController.handleAllDisease);
   router.get(
+    "/disease/:type",
+    checkUserJwt,
+    diseaseController.handleAllDiseaseByType
+  );
+  router.get(
     "/disease/search/:searchTerm",
     checkUserJwt,
     diseaseController.handleSearchDisease
   );
   router.get("/purpose", checkUserJwt, purposeController.handleAllPurpose);
-  router.get("/order/:id", checkUserJwt, orderController.handleAllOrderByID);
-  router.post("/order/add", checkUserJwt, orderController.handleAddOrder);
-  router.get(
-    "/order_detail/:id",
-    checkUserJwt,
-    orderDetailController.handleOrderDetailByID
-  );
+  router.get("/order/:id", orderController.handleAllOrderByID);
+  router.post("/order/add", orderController.handleAddOrder);
+  router.get("/order_detail/:id", orderDetailController.handleOrderDetailByID);
   router.post(
     "/order_detail/add",
-    checkUserJwt,
+
     orderDetailController.handleAddNewOrderDetail
   );
 
